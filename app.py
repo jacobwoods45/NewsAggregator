@@ -1,5 +1,7 @@
 import feedparser
 from pymongo import MongoClient
+import time
+import datetime
 
 client = MongoClient('mongodb+srv://jacobwoods45:Sharpie78!@newsaggregatorcluster.ncifr.mongodb.net/NewsAggregator?retryWrites=true&w=majority')
 db = client["NewsAggregator"]
@@ -39,6 +41,9 @@ def log_all_feed(feed_links, feed_names):
         get_news_feed(feed_links[feed_index], feed_names[feed_index] )
         feed_index+=1
     print("News Feeds Logged")
-
-delete_all_feeds()
-log_all_feed(feed_links, feed_names)
+while True:
+    delete_all_feeds()
+    log_all_feed(feed_links, feed_names)
+    print("Waiting... To Log Again")
+    print("Last log was at: " , datetime.datetime.now())
+    time.sleep(43200/2)
